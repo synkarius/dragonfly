@@ -163,9 +163,18 @@ class Window(object):
         handle = windll.kernel32.OpenProcess(0x0410, 0, pid)
 
         # Retrieve and return the process's executable path.
-        buf_len = 256
-        buf = (c_wchar * buf_len)()
-        windll.psapi.GetModuleFileNameExW(handle, 0, pointer(buf), buf_len)
+        buf_len = c_ulong(256)
+        buf = (c_wchar * buf_len.value)()
+        try:
+            # QueryFullProcessImageNameW requires Vista or above, but works for all bitness
+            windll.kernel32.QueryFullProcessImageNameW(handle, 0, pointer(buf), pointer(buf_len))
+        except Exception, e:
+            # GetModuleFileNameExW works in XP, but fails with 32-bit python querying 64-bit processes in Windows 8
+            windll.psapi.GetModuleFileNameExW(handle, 0, pointer(buf), buf_len)
+            return ""
+        finally:
+            # Don't leak handle
+            windll.kernel32.CloseHandle(handle)
         buf = buf[:]
         buf = buf[:buf.index("\0")]
         return str(buf)
