@@ -92,8 +92,8 @@ Dragonfly:
  * `Dictation Toolbox' Dragonfly Scripts
    <https://github.com/dictation-toolbox/dragonfly-scripts>`_
 
- * `Dragonfly::Sorcery <https://github.com/synkarius/dragonfly-sorcery>`_
-   --- David Conway's Dragonfly resources
+ * `Caster <https://github.com/synkarius/caster>`_
+   --- Dragonfly resources for voice programming
 
  * `Simian Hacker's Code-by-Voice
    <https://github.com/simianhacker/code-by-voice>`_
